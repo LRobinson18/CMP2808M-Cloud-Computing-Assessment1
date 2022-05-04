@@ -1,0 +1,15 @@
+info:
+  title: bucket template schema
+  author: 15611294
+  description: Checks for existing properties
+  version: 1.0
+
+imports:
+- path: bucket.jinja
+
+required:
+- region
+properties:
+  region:
+    type: string
+    description: defines the subnet region deployment area

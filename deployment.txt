@@ -1,0 +1,1 @@
+gcloud deployment-manager deployments create assessment1-deployment --config "C:\Users\lewis\OneDrive - University of Lincoln\Cloud Computing\Assessment 1\15611294.yaml" --preview

@@ -1,0 +1,26 @@
+## generate a random number for the sql name because it you can't use the same name within a week
+{% set instance_name = 'sql-' + (range(1, 10000) | random) | string %}
+resources:
+- name: {{ instance_name }}
+  type: gcp-types/sqladmin-v1beta4:instances
+
+  properties:
+    region: {{ properties['region'] }}
+    settings:
+      tier: {{ properties['tier'] }}
+      backupConfiguration:
+        binaryLogEnabled: true
+        enabled: true
+    networkInterfaces:
+    - network: {{ properties["network"] }}
+      subnetwork: {{ properties["subnet"] }}
+      accessConfigs:
+      - name: external-IP
+        type: ONE_TO_ONE_NAT
+
+- name: {{env["name"]}}-database
+  type: gcp-types/sqladmin-v1beta4:databases
+  properties:
+    name: {{env["name"]}}-database
+    instance: $(ref.{{ instance_name }}.name)
+    charset: utf8

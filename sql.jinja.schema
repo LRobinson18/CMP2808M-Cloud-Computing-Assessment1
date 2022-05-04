@@ -1,0 +1,28 @@
+info:
+  title: sql template schema
+  author: 15611294
+  description: Checks for existing properties
+  version: 1.0
+
+imports:
+- path: sql.jinja
+
+required:
+- tier
+- region
+- network
+- subnet
+
+properties:
+  tier:
+    type: string
+    description: defines the type of database to use
+  region:
+    type: string
+    description: defines the subnet region deployment area
+  network:
+    type: string
+    description: links to the network
+  subnet:
+    type: string
+    description: links to the subnet of the network defined previously

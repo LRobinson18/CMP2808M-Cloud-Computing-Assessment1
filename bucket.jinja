@@ -1,0 +1,14 @@
+resources:
+- type: storage.v1.bucket
+## generate a random number for the bucket because it has to be completely unique
+  name:  defrosterbucket{{ range(1, 10000) | random }}
+  properties:
+    location: {{ properties['region'] }}
+    lifecycle:
+      rule:
+      ## delete an item after it has not been accessed and/or used for 31 days
+        - action:
+            type: Delete
+          condition:
+            age: 31
+            isLive: true

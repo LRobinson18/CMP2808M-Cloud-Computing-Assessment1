@@ -1,0 +1,24 @@
+info:
+  title: subnet template schema
+  author: 15611294
+  description: Checks for existing properties
+  version: 1.0
+
+imports:
+- path: subnet.jinja
+
+required:
+- ipCidrRange
+- network
+- region
+
+properties:
+  ipCidrRange:
+    type: string
+    description: the IP range that the host will be in
+  network:
+    type: string
+    description: links to the network
+  region:
+    type: string
+    description: defines the subnet region deployment area

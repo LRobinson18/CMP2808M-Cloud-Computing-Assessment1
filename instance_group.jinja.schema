@@ -1,0 +1,34 @@
+info:
+  title: instance_group template schema
+  author: 15611294
+  description: Checks for existing properties
+  version: 1.0
+
+imports:
+- path: instance_group.jinja
+
+required:
+- zone
+- sourceImage
+- network
+- subnet
+
+properties:
+  zone:
+    type: string
+    description: VM zone deployment area
+  sourceImage:
+    type: string
+    description: defines the operating system
+  network:
+    type: string
+    description: links to the network
+  subnet:
+    type: string
+    description: links to the subnet of the network defined previously
+  targetSize:
+    type: integer
+    description: defines the number of instances to be generated
+  maxNumReplica:
+    type: integer
+    description: defines the maximum number of instances that can be generated

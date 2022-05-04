@@ -1,0 +1,77 @@
+# import all of the jinja template files
+imports:
+- path: network.jinja
+- path: subnet.jinja
+- path: firewall.jinja
+- path: instance_group.jinja
+- path: vm_main.jinja
+- path: sql.jinja
+- path: bucket.jinja
+
+# define jinja resource names and properties
+resources:
+# import the network jinja file which will located in europe-west2
+- name: uk-network
+  type: network.jinja
+
+# import the subnet jinja file which defines the useable IP addresses and region
+- name: uk-subnet
+  type: subnet.jinja
+  properties:
+    ipCidrRange: 10.10.0.0/24
+    network: $(ref.uk-network.selfLink)
+    region: europe-west2
+
+# import the firewall jinja file which links back to the network and adds a firewall rule
+- name: uk-firewall
+  type: firewall.jinja
+  properties:
+    network: $(ref.uk-network.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    IPProtocol: TCP
+
+# import the instance group jinja file which creates 2 VMs running debian9
+- name: instgroup-d9
+  type: instance_group.jinja
+  properties:
+    zone: europe-west2-a
+    sourceImage: projects/debian-cloud/global/images/family/debian-9
+    network: $(ref.uk-network.selfLink)
+    subnet: $(ref.uk-subnet.selfLink)
+    targetSize: 2
+    maxNumReplicas: 3
+
+# import the vm_main jinja file which creates a virtual machine running debian9
+- name: vm-uk1
+  type: vm_main.jinja
+  properties:
+    zone: europe-west2-a
+    diskSizeGb: 10
+    sourceImage: projects/debian-cloud/global/images/family/debian-9
+    network: $(ref.uk-network.selfLink)
+    subnet: $(ref.uk-subnet.selfLink)
+
+# import the same jinja template used previously but run windows 2019 with a larger disk size
+- name: vm-uk2
+  type: vm_main.jinja
+  properties:
+    zone: europe-west2-a
+    diskSizeGb: 50
+    sourceImage: projects/windows-cloud/global/images/family/windows-2019
+    network: $(ref.uk-network.selfLink)
+    subnet: $(ref.uk-subnet.selfLink)
+
+# import the sql jinja file which creates a small database in europe-west2, in the network
+- name: sql
+  type: sql.jinja
+  properties:
+    tier: db-g1-small
+    region: europe-west2
+    network: $(ref.uk-network.selfLink)
+    subnet: $(ref.uk-subnet.selfLink)
+
+# import the bucket jinja file which creates storage in europe-west2
+- name: bucket
+  type: bucket.jinja
+  properties:
+    region: europe-west2

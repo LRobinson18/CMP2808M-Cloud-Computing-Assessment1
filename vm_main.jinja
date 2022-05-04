@@ -1,0 +1,20 @@
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.instance
+  properties:
+    zone: {{ properties["zone"] }}
+    machineType: zones/{{ properties["zone"] }}/machineTypes/n1-standard-1
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      diskSizeGb: {{ properties["diskSizeGb"] }}
+      initializeParams:
+        sourceImage: {{ properties["sourceImage"] }}
+    networkInterfaces:
+    - network: {{ properties["network"] }}
+      subnetwork: {{ properties["subnet"] }}
+      accessConfigs:
+      - name: external-IP
+        type: ONE_TO_ONE_NAT

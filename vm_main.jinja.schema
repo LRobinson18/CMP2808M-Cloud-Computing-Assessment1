@@ -1,0 +1,32 @@
+info:
+  title: vm_main template schema
+  author: 15611294
+  description: Checks for existing properties
+  version: 1.0
+
+imports:
+- path: vm_main.jinja
+
+required:
+- zone
+- diskSizeGb
+- sourceImage
+- network
+- subnet
+
+properties:
+  zone:
+    type: string
+    description: VM zone deployment area
+  diskSizeGb:
+    type: integer
+    description: operating system disk size in gigabytes
+  sourceImage:
+    type: string
+    description: defines the operating system
+  network:
+    type: string
+    description: links to the network
+  subnet:
+    type: string
+    description: links to the subnet of the network defined previously

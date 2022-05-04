@@ -1,0 +1,24 @@
+info:
+  title: firewall template schema
+  author: 15611294
+  description: Checks for existing properties
+  version: 1.0
+
+imports:
+- path: firewall.jinja
+
+required:
+- network
+- sourceRanges
+- IPProtocol
+
+properties:
+  network:
+    type: string
+    description: links to the network
+  sourceRanges:
+    type: array
+    description: start of the IP range for hosts on the network
+  IPProtocol:
+    type: string
+    description: defines the IP protocol for the network to use
